@@ -1,0 +1,45 @@
+import { motion } from 'framer-motion';
+
+export default function Footer() {
+    return (
+        <motion.footer className="bg-white/5 border-t border-white/5 mt-auto pt-10 text-gray-400"
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ type: "spring", duration: 0.5 }}
+        >
+            <div className="max-w-6xl mx-auto px-6">
+                <div className="flex flex-col md:flex-row items-center justify-between py-6 border-b border-white/5">
+                    <div className="mb-4 md:mb-0">
+                        <span className="font-display font-bold text-xl tracking-wide text-white">
+                            AI<span className="text-secondary text-indigo-400">Job</span>Assistant
+                        </span>
+                        <p className="max-w-[400px] mt-4 text-sm leading-relaxed">
+                            Craft perfect job applications instantly. ATS-optimized resumes and high-converting emails tailored specifically for your target role.
+                        </p>
+                    </div>
+
+                    <div className="flex gap-8">
+                        <div>
+                            <h3 className="font-semibold text-white mb-2 text-sm">Product</h3>
+                            <ul className="text-sm space-y-2">
+                                <li><a href="#" className="hover:text-white transition">Features</a></li>
+                                <li><a href="#" className="hover:text-white transition">Pricing</a></li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h3 className="font-semibold text-white mb-2 text-sm">Resources</h3>
+                            <ul className="text-sm space-y-2">
+                                <li><a href="#" className="hover:text-white transition">Blog</a></li>
+                                <li><a href="#" className="hover:text-white transition">Support</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <p className="py-6 text-center text-sm text-gray-500">
+                    © {new Date().getFullYear()} AI Job Assistant. All rights reserved.
+                </p>
+            </div>
+        </motion.footer>
+    );
+}

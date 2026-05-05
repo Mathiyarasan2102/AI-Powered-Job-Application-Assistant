@@ -1,0 +1,138 @@
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700&family=Syne:wght@400;500;600;700;800&display=swap');
+
+@import "tailwindcss";
+@config "../tailwind.config.js";
+
+/* Marquee animation for the landing page logo strip */
+@keyframes marquee {
+    0% { transform: translateX(0%); }
+    100% { transform: translateX(-50%); }
+}
+
+.animate-marquee {
+    display: inline-flex;
+    animation: marquee 16s linear infinite;
+}
+
+/* Shimmer loading animation */
+@keyframes shimmer {
+    0% { background-position: -200% 0; }
+    100% { background-position: 200% 0; }
+}
+
+.animate-shimmer {
+    background: linear-gradient(90deg, rgba(99,102,241,0.05) 25%, rgba(99,102,241,0.15) 50%, rgba(99,102,241,0.05) 75%);
+    background-size: 200% 100%;
+    animation: shimmer 1.5s ease-in-out infinite;
+}
+
+/* Pulse glow for active states */
+@keyframes pulse-glow {
+    0%, 100% { box-shadow: 0 0 20px rgba(99,102,241,0.3); }
+    50% { box-shadow: 0 0 40px rgba(99,102,241,0.6); }
+}
+
+.animate-pulse-glow {
+    animation: pulse-glow 2s ease-in-out infinite;
+}
+
+@layer base {
+  body {
+    background-color: #030303;
+    color: #A1A1AA;
+    @apply font-sans antialiased selection:bg-white/20 selection:text-white overflow-x-hidden;
+  }
+  body::before {
+    content: "";
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: radial-gradient(circle at 50% -20%, rgba(99, 102, 241, 0.15), transparent 60%);
+    pointer-events: none;
+    z-index: -1;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    color: #FAFAFA;
+    @apply font-display font-bold tracking-tight;
+  }
+}
+
+@layer components {
+  .glass-panel {
+    background: linear-gradient(180deg, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0.01) 100%);
+    box-shadow: 0 4px 24px -1px rgba(0, 0, 0, 0.2), inset 0 1px 0 0 rgba(255, 255, 255, 0.05);
+    @apply backdrop-blur-2xl border border-white/[0.04] rounded-3xl transition-all duration-300;
+  }
+  .glass-panel:hover {
+    border-color: rgba(255, 255, 255, 0.08);
+    box-shadow: 0 8px 32px -1px rgba(0, 0, 0, 0.3), inset 0 1px 0 0 rgba(255, 255, 255, 0.1);
+  }
+  .input-field {
+    background-color: rgba(255, 255, 255, 0.02);
+    color: #FAFAFA;
+    box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.02);
+    @apply w-full border border-white/10 rounded-2xl px-5 py-4 focus:outline-none focus:border-indigo-500/50 focus:bg-indigo-500/5 transition-all duration-300 placeholder:text-zinc-600;
+  }
+  .btn-primary {
+    @apply relative overflow-hidden bg-white text-black font-semibold py-3.5 px-7 rounded-full transition-all duration-300 flex items-center justify-center gap-2 shadow-[0_0_20px_rgba(255,255,255,0.1)] hover:shadow-[0_0_30px_rgba(255,255,255,0.2)] hover:scale-[1.02] active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100;
+  }
+  .btn-primary::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(255,255,255,0.2) 0%, transparent 100%);
+    pointer-events: none;
+    border-radius: inherit;
+  }
+  .btn-secondary {
+    background: rgba(255, 255, 255, 0.03);
+    color: #FAFAFA;
+    box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.05);
+    @apply hover:bg-white/[0.06] border border-white/[0.08] font-medium py-3.5 px-7 rounded-full transition-all duration-300 flex items-center justify-center gap-2 hover:border-white/[0.15] active:scale-[0.98];
+  }
+  .btn-danger {
+    @apply bg-red-500/10 text-red-400 border border-red-500/20 hover:bg-red-500/20 font-medium py-3 px-6 rounded-full transition-all duration-300 flex items-center justify-center gap-2 active:scale-[0.98];
+  }
+  .badge-indigo {
+    @apply inline-flex items-center px-3.5 py-1.5 rounded-full text-xs font-semibold bg-indigo-500/10 text-indigo-300 border border-indigo-500/20 tracking-wide;
+  }
+  .badge-emerald {
+    @apply inline-flex items-center px-3.5 py-1.5 rounded-full text-xs font-semibold bg-emerald-500/10 text-emerald-300 border border-emerald-500/20 tracking-wide;
+  }
+  .badge-amber {
+    @apply inline-flex items-center px-3.5 py-1.5 rounded-full text-xs font-semibold bg-amber-500/10 text-amber-300 border border-amber-500/20 tracking-wide;
+  }
+  .badge-red {
+    @apply inline-flex items-center px-3.5 py-1.5 rounded-full text-xs font-semibold bg-red-500/10 text-red-300 border border-red-500/20 tracking-wide;
+  }
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #0F1115;
+}
+::-webkit-scrollbar-thumb {
+  background: #1A1D24;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #2D313A;
+}
+
+/* Tab active underline animation */
+.tab-active {
+  position: relative;
+}
+.tab-active::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: #6366F1;
+  border-radius: 9999px;
+}

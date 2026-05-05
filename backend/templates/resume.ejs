@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title><%= name %> — Resume</title>
+  <%
+    /**
+     * Convert **text** markdown bold to <b>text</b> HTML.
+     * Used in bullet points so the AI can emphasize keywords
+     * just like \textbf{} in the original LaTeX template.
+     */
+    function renderBold(text) {
+      if (!text) return '';
+      return String(text).replace(/\*\*(.+?)\*\*/g, '<b>$1</b>');
+    }
+  %>
+  <style>
+    /* ══════════════════════════════════════════════════════════════
+     * ATS-Optimized One-Page Resume — Pixel-perfect LaTeX replica
+     *
+     * Replicates exactly:
+     *   \documentclass[10pt,letterpaper]{article}
+     *   \usepackage[margin=0.5in]{geometry}
+     *   \usepackage[hidelinks]{hyperref}
+     *   \usepackage{enumitem}
+     *   \usepackage{titlesec}
+     *   \pagenumbering{gobble}
+     *   \titlespacing{\section}{0pt}{9pt}{5pt}
+     *   \titleformat{\section}{\large\bfseries\uppercase}{}{0em}{}[\titlerule]
+     * ══════════════════════════════════════════════════════════════ */
+
+    /* ── Hard Reset ───────────────────────────────────────────── */
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    /* ── Base — 10pt article class ────────────────────────────── */
+    html {
+      font-size: 10pt;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+
+    body {
+      font-family: 'Times New Roman', 'Times', 'DejaVu Serif', serif;
+      color: #000;
+      line-height: 1.2;
+      background: #fff;
+    }
+
+    /* hidelinks — all links look like normal text */
+    a {
+      color: #000;
+      text-decoration: none;
+    }
+
+    /* No inner padding — Puppeteer margin handles the 0.5in */
+    .resume {
+      max-width: 100%;
+    }
+
+    /* ══════ HEADER — \begin{center}…\end{center} ══════ */
+    .header {
+      text-align: center;
+      margin-bottom: 0;
+    }
+
+    /* \LARGE\textbf{Name}  —  \LARGE at 10pt base = 17.28pt */
+    .header__name {
+      font-size: 17.28pt;
+      font-weight: bold;
+      line-height: 1.25;
+    }
+
+    /* \vspace{2pt} \normalsize\textbf{ROLE} */
+    .header__role {
+      font-size: 10pt;
+      font-weight: bold;
+      margin-top: 2pt;
+    }
+
+    /* \vspace{4pt}  contact line */
+    .header__contact {
+      font-size: 10pt;
+      margin-top: 4pt;
+    }
+
+    /* \vspace{3pt}  links line */
+    .header__links {
+      font-size: 10pt;
+      margin-top: 3pt;
+    }
+
+    /* ══════ SECTION — \titleformat + \titlespacing ══════
+     *
+     *  \titlespacing{\section}{0pt}{9pt}{5pt}
+     *  → 9pt space ABOVE the title, 5pt space BELOW the rule
+     *
+     *  \titleformat{\section}{\large\bfseries\uppercase}{}{0em}{}[\titlerule]
+     *  → \large = 12pt, bold, uppercase, horizontal rule after
+     */
+    .section {
+      margin-top: 5pt;
+    }
+
+    .section__title {
+      font-size: 12pt;
+      font-weight: bold;
+      text-transform: uppercase;
+      line-height: 1.2;
+      padding-bottom: 2pt;
+      border-bottom: 0.6pt solid #000;
+      margin-bottom: 3pt;
+    }
+
+    /* ══════ SUMMARY — plain paragraph ══════ */
+    .summary {
+      font-size: 10pt;
+      line-height: 1.25;
+      text-align: justify;
+    }
+
+    /* ══════ SKILLS — \begin{itemize}[leftmargin=*, noitemsep] ══════ */
+    .skills-list {
+      list-style-type: disc;
+      padding-left: 1.2em;
+      margin: 0;
+    }
+    .skills-list li {
+      font-size: 10pt;
+      line-height: 1.3;
+      margin-bottom: 0;
+    }
+    .skills-list .cat {
+      font-weight: bold;
+    }
+
+    /* ══════ ENTRY — Experience / Projects ══════ */
+    .entry {
+      margin-bottom: 2pt;
+    }
+
+    /* \noindent\textbf{Title} \hfill Dates */
+    .entry__row {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      font-size: 10pt;
+      line-height: 1.4;
+    }
+    .entry__title {
+      font-weight: bold;
+    }
+    .entry__right {
+      font-size: 10pt;
+      white-space: nowrap;
+      margin-left: 8pt;
+      text-align: right;
+    }
+
+    /* \textit{Company | Location} */
+    .entry__subtitle {
+      font-size: 10pt;
+      font-style: italic;
+      line-height: 1.2;
+    }
+
+    /* \textit{Technologies: …} */
+    .entry__tech {
+      font-size: 10pt;
+      font-style: italic;
+      line-height: 1.2;
+    }
+
+    /* \begin{itemize}[leftmargin=*, noitemsep, topsep=2pt] */
+    .entry__bullets {
+      list-style-type: disc;
+      padding-left: 1.2em;
+      margin: 2pt 0 0 0;
+    }
+    .entry__bullets li {
+      font-size: 10pt;
+      line-height: 1.25;
+      margin-bottom: 0;
+    }
+
+    /* ══════ EDUCATION ══════ */
+    .edu {
+      margin-bottom: 3pt;
+    }
+    .edu__row {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      font-size: 10pt;
+      line-height: 1.4;
+    }
+    .edu__degree {
+      font-weight: bold;
+    }
+    .edu__year {
+      white-space: nowrap;
+    }
+    .edu__detail {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      font-size: 10pt;
+      line-height: 1.2;
+    }
+    .edu__score {
+      white-space: nowrap;
+    }
+
+    /* ══════ CERTIFICATIONS ══════ */
+    .cert-list {
+      list-style-type: disc;
+      padding-left: 1.2em;
+      margin: 0;
+    }
+    .cert-list li {
+      font-size: 10pt;
+      line-height: 1.3;
+      margin-bottom: 0;
+    }
+
+    /* ══════ Print ══════ */
+    @media print {
+      body { margin: 0; padding: 0; }
+    }
+  </style>
+</head>
+<body>
+  <div class="resume">
+
+    <!-- ═══════════ HEADER ═══════════ -->
+    <div class="header">
+      <div class="header__name"><%= name %></div>
+      <div class="header__role"><%= title %></div>
+      <div class="header__contact">
+        <%
+          // Build contact parts: Location | Open to X | Phone | Email
+          var contactParts = [];
+          if (location) contactParts.push(location);
+          if (openTo) contactParts.push(openTo);
+          if (phone) contactParts.push(phone);
+        %>
+        <%= contactParts.join(' | ') %><% if (contactParts.length && email) { %> |<% } %>
+        <% if (email) { %>
+        <a href="mailto:<%= email %>"><%= email %></a>
+        <% } %>
+      </div>
+      <% if (links && links.length > 0) { %>
+      <div class="header__links">
+        <% links.forEach(function(link, i) { %>
+          <a href="<%= link.url %>"><%= link.label %></a><% if (i < links.length - 1) { %> |<% } %>
+        <% }); %>
+      </div>
+      <% } %>
+    </div>
+
+    <!-- ═══════════ PROFESSIONAL SUMMARY ═══════════ -->
+    <% if (summary) { %>
+    <div class="section">
+      <div class="section__title">Professional Summary</div>
+      <div class="summary"><%- renderBold(summary) %></div>
+    </div>
+    <% } %>
+
+    <!-- ═══════════ TECHNICAL SKILLS ═══════════ -->
+    <% if (skills) { %>
+    <div class="section">
+      <div class="section__title">Technical Skills</div>
+      <ul class="skills-list">
+        <% if (typeof skills === 'object' && !Array.isArray(skills)) { %>
+          <% Object.entries(skills).forEach(function([category, items]) { %>
+            <li><span class="cat"><%= category %>:</span> <%- renderBold(Array.isArray(items) ? items.join(', ') : items) %></li>
+          <% }); %>
+        <% } else if (Array.isArray(skills)) { %>
+          <li><%- renderBold(skills.join(', ')) %></li>
+        <% } else { %>
+          <li><%- renderBold(skills) %></li>
+        <% } %>
+      </ul>
+    </div>
+    <% } %>
+
+    <!-- ═══════════ PROFESSIONAL EXPERIENCE ═══════════ -->
+    <% if (experience && experience.length > 0) { %>
+    <div class="section">
+      <div class="section__title">Professional Experience</div>
+      <% experience.forEach(function(exp, idx) { %>
+        <div class="entry">
+          <div class="entry__row">
+            <span class="entry__title"><%= exp.title %></span>
+            <span class="entry__right"><%= exp.startDate %> – <%= exp.endDate %></span>
+          </div>
+          <div class="entry__subtitle"><%= exp.company %><% if (exp.location) { %> | <%= exp.location %><% } %></div>
+          <% if (exp.description && exp.description.length > 0) { %>
+          <ul class="entry__bullets">
+            <% exp.description.forEach(function(bullet) { %>
+              <li><%- renderBold(bullet) %></li>
+            <% }); %>
+          </ul>
+          <% } %>
+        </div>
+      <% }); %>
+    </div>
+    <% } %>
+
+    <!-- ═══════════ PROJECTS ═══════════ -->
+    <% if (projects && projects.length > 0) { %>
+    <div class="section">
+      <div class="section__title">Projects</div>
+      <% projects.forEach(function(proj, idx) { %>
+        <div class="entry"<% if (idx < projects.length - 1) { %> style="margin-bottom: 4pt;"<% } %>>
+          <div class="entry__row">
+            <span class="entry__title"><%= proj.title %></span>
+            <span class="entry__right">
+              <% if (proj.github) { %><a href="<%= proj.github %>">GitHub</a><% } %><% if (proj.github && (proj.demo || proj.link)) { %> | <% } %><% if (proj.demo || proj.link) { %><a href="<%= proj.demo || proj.link %>">Live Demo</a><% } %>
+            </span>
+          </div>
+          <% if (proj.technologies) { %>
+            <div class="entry__tech"><%= Array.isArray(proj.technologies) ? proj.technologies.join(' • ') : proj.technologies.split(',').join(' • ') %></div>
+          <% } %>
+          <% if (proj.description && proj.description.length > 0) { %>
+          <ul class="entry__bullets">
+            <% proj.description.forEach(function(bullet) { %>
+              <li><%- renderBold(bullet) %></li>
+            <% }); %>
+          </ul>
+          <% } %>
+        </div>
+      <% }); %>
+    </div>
+    <% } %>
+
+    <!-- ═══════════ EDUCATION ═══════════ -->
+    <% if (education && education.length > 0) { %>
+    <div class="section">
+      <div class="section__title">Education</div>
+      <% education.forEach(function(edu, idx) { %>
+        <div class="edu">
+          <div class="edu__row">
+            <span class="edu__degree"><%= edu.degree %></span>
+            <span class="edu__year"><%= edu.year %></span>
+          </div>
+          <div class="edu__detail">
+            <span><%= edu.institution %></span>
+            <% if (edu.score) { %><span class="edu__score"><%= edu.score %></span><% } %>
+          </div>
+        </div>
+      <% }); %>
+    </div>
+    <% } %>
+
+    <!-- ═══════════ CERTIFICATIONS ═══════════ -->
+    <% if (certifications && certifications.length > 0) { %>
+    <div class="section">
+      <div class="section__title">Certifications</div>
+      <ul class="cert-list">
+        <% certifications.forEach(function(cert) { %>
+          <% if (typeof cert === 'string') { %>
+            <li><%- renderBold(cert) %></li>
+          <% } else { %>
+            <li><b><%= cert.title %></b><% if (cert.date) { %> — <%= cert.date %><% } %></li>
+          <% } %>
+        <% }); %>
+      </ul>
+    </div>
+    <% } %>
+
+  </div>
+</body>
+</html>
