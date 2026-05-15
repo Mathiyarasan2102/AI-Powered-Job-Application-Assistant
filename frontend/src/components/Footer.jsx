@@ -19,22 +19,7 @@ export default function Footer() {
                         </p>
                     </div>
 
-                    <div className="flex gap-8">
-                        <div>
-                            <h3 className="font-semibold text-white mb-2 text-sm">Product</h3>
-                            <ul className="text-sm space-y-2">
-                                <li><a href="#" className="hover:text-white transition">Features</a></li>
-                                <li><a href="#" className="hover:text-white transition">Pricing</a></li>
-                            </ul>
-                        </div>
-                        <div>
-                            <h3 className="font-semibold text-white mb-2 text-sm">Resources</h3>
-                            <ul className="text-sm space-y-2">
-                                <li><a href="#" className="hover:text-white transition">Blog</a></li>
-                                <li><a href="#" className="hover:text-white transition">Support</a></li>
-                            </ul>
-                        </div>
-                    </div>
+
                 </div>
                 <p className="py-6 text-center text-sm text-gray-500">
                     © {new Date().getFullYear()} ResuForge. All rights reserved.

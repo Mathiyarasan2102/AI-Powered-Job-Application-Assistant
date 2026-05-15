@@ -14,8 +14,8 @@ export default {
         textMuted: '#A1A1AA'
       },
       fontFamily: {
-        sans: ['DM Sans', 'sans-serif'],
-        display: ['Syne', 'sans-serif'], 
+        sans: ['Plus Jakarta Sans', 'sans-serif'],
+        display: ['Fraunces', 'serif'],
       }
     },
   },
