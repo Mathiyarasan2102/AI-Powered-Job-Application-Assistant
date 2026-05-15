@@ -42,7 +42,7 @@ export default function Navbar() {
                 {isAuthenticated ? (
                   <>
                     <Link to="/job/new" className={`transition flex items-center gap-2 py-2 px-3 rounded-full ${isActive('/job/new') ? 'bg-white/5 border border-white/5 text-white' : 'border border-transparent hover:text-white hover:bg-white/5'}`}>
-                        <Plus className="w-4 h-4 text-primary"/> New App
+                        <Plus className="w-4 h-4 text-primary"/> New resume
                     </Link>
                     <Link to="/history" className={`transition flex items-center gap-2 py-2 px-3 rounded-full ${isActive('/history') ? 'bg-white/5 border border-white/5 text-white' : 'border border-transparent hover:text-white hover:bg-white/5'}`}>
                         <Clock className="w-4 h-4 text-primary"/> History
@@ -70,7 +70,7 @@ export default function Navbar() {
                               className="absolute right-0 top-full mt-2 w-48 bg-[#0a0a0a]/95 backdrop-blur-xl border border-white/10 rounded-xl overflow-hidden shadow-2xl"
                             >
                                 <Link to="/profile" onClick={() => setProfileOpen(false)} className="block px-4 py-3 text-sm text-gray-300 hover:text-white hover:bg-white/5 transition-colors">
-                                    Settings &amp; Profile
+                                    Profile & settings
                                 </Link>
                                 <button onClick={() => { logout(); setProfileOpen(false); }} className="w-full text-left px-4 py-3 text-sm text-red-400 hover:text-red-300 hover:bg-white/5 border-t border-white/5 flex items-center gap-2 transition-colors">
                                     <LogOut className="w-4 h-4" /> Log out
@@ -100,7 +100,7 @@ export default function Navbar() {
         <div className={`flex flex-col items-center justify-center gap-6 text-lg font-medium fixed inset-0 bg-black/80 backdrop-blur-md z-50 transition-all duration-300 overflow-hidden ${isOpen ? "opacity-100 visible" : "opacity-0 invisible"} pointer-events-auto`}>
             {isAuthenticated ? (
                 <>
-                    <Link to="/job/new" onClick={() => setIsOpen(false)} className="text-white hover:text-indigo-400">New Application</Link>
+                    <Link to="/job/new" onClick={() => setIsOpen(false)} className="text-white hover:text-indigo-400">New resume</Link>
                     <Link to="/history" onClick={() => setIsOpen(false)} className="text-white hover:text-indigo-400">History</Link>
                     <Link to="/profile" onClick={() => setIsOpen(false)} className="text-white hover:text-indigo-400">Profile</Link>
                     <button onClick={() => { logout(); setIsOpen(false); }} className='font-medium text-gray-300 hover:text-white transition mt-4'>

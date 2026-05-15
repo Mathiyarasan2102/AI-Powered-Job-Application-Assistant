@@ -37,18 +37,18 @@ export default function Dashboard() {
         <div>
           <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/5 border border-white/10 mb-4">
             <div className="w-2 h-2 rounded-full bg-primary animate-pulse"></div>
-            <span className="text-[10px] font-mono uppercase tracking-widest text-textMuted">System Online</span>
+            <span className="text-[10px] font-mono uppercase tracking-widest text-textMuted">All systems go</span>
           </div>
           <h1 className="text-5xl lg:text-6xl font-display font-extrabold text-white tracking-tight leading-none mb-3">
             Command Center
           </h1>
           <p className="text-textMuted text-lg font-light max-w-xl">
-            Welcome back, <span className="text-white font-medium">{user?.name}</span>. Your career pipeline is ready for execution.
+            Welcome back, <span className="text-white font-medium">{user?.name}</span>. Here's where you left off.
           </p>
         </div>
         <Link to="/job/new">
           <button className="btn-primary w-full md:w-auto shadow-[0_0_30px_rgba(212,255,0,0.15)]">
-            <Sparkles className="w-4 h-4" /> Initialize New Application
+            <Sparkles className="w-4 h-4" /> New Application
           </button>
         </Link>
       </motion.div>
@@ -64,7 +64,7 @@ export default function Dashboard() {
           </div>
           <div className="relative z-10">
             <div className="text-5xl font-display font-bold text-white mb-1">{history.length}</div>
-            <div className="text-sm font-medium text-textMuted uppercase tracking-widest">Total Pipelines</div>
+            <div className="text-sm font-medium text-textMuted uppercase tracking-widest">Resumes created</div>
           </div>
         </motion.div>
 
@@ -77,7 +77,7 @@ export default function Dashboard() {
           </div>
           <div className="relative z-10">
             <div className="text-5xl font-display font-bold text-white mb-1">{avgScore}%</div>
-            <div className="text-sm font-medium text-textMuted uppercase tracking-widest">Avg Match Score</div>
+            <div className="text-sm font-medium text-textMuted uppercase tracking-widest">Avg. match score</div>
           </div>
         </motion.div>
 
@@ -90,7 +90,7 @@ export default function Dashboard() {
           </div>
           <div className="relative z-10">
             <div className="text-5xl font-display font-bold text-white mb-1">{user?.skills?.length || 0}</div>
-            <div className="text-sm font-medium text-textMuted uppercase tracking-widest">Indexed Skills</div>
+            <div className="text-sm font-medium text-textMuted uppercase tracking-widest">Skills on file</div>
           </div>
         </motion.div>
       </div>
@@ -108,8 +108,8 @@ export default function Dashboard() {
                   <FilePlus className="w-5 h-5" />
                 </div>
                 <div>
-                  <h3 className="text-white font-medium">Batch Run</h3>
-                  <p className="text-xs text-textMuted">Generate new apps</p>
+                  <h3 className="text-white font-medium">New application</h3>
+                  <p className="text-xs text-textMuted">Paste a JD and get started</p>
                 </div>
               </div>
               <ChevronRight className="w-4 h-4 text-textMuted group-hover:text-primary transition-colors group-hover:translate-x-1" />
@@ -123,8 +123,8 @@ export default function Dashboard() {
                   <UserCircle className="w-5 h-5" />
                 </div>
                 <div>
-                  <h3 className="text-white font-medium">System Profile</h3>
-                  <p className="text-xs text-textMuted">Update baseline data</p>
+                  <h3 className="text-white font-medium">Your profile</h3>
+                  <p className="text-xs text-textMuted">Skills, experience & links</p>
                 </div>
               </div>
               <ChevronRight className="w-4 h-4 text-textMuted group-hover:text-secondary transition-colors group-hover:translate-x-1" />
@@ -138,8 +138,8 @@ export default function Dashboard() {
                   <Clock className="w-5 h-5" />
                 </div>
                 <div>
-                  <h3 className="text-white font-medium">Activity Logs</h3>
-                  <p className="text-xs text-textMuted">View past executions</p>
+                  <h3 className="text-white font-medium">History</h3>
+                  <p className="text-xs text-textMuted">All your past resumes</p>
                 </div>
               </div>
               <ChevronRight className="w-4 h-4 text-textMuted group-hover:text-white transition-colors group-hover:translate-x-1" />
@@ -150,8 +150,8 @@ export default function Dashboard() {
         {/* Right Column: Recent Activity */}
         <div className="lg:col-span-2">
           <div className="flex items-center justify-between mb-6 border-b border-white/10 pb-4">
-            <h2 className="text-xs font-mono text-textMuted uppercase tracking-widest">Recent Executions</h2>
-            <Link to="/history" className="text-xs text-secondary hover:text-white transition">View Log →</Link>
+            <h2 className="text-xs font-mono text-textMuted uppercase tracking-widest">Recent resumes</h2>
+            <Link to="/history" className="text-xs text-secondary hover:text-white transition">See all →</Link>
           </div>
           
           {recentApps.length > 0 ? (
@@ -194,7 +194,7 @@ export default function Dashboard() {
                         target="_blank"
                         rel="noreferrer"
                         className="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-textMuted hover:text-white hover:bg-white/10 hover:border-white/20 transition-all flex-shrink-0"
-                        title="Download Asset"
+                        title="Download PDF"
                       >
                         <Download className="w-4 h-4" />
                       </a>
@@ -208,8 +208,8 @@ export default function Dashboard() {
               <div className="w-16 h-16 rounded-2xl bg-white/5 flex items-center justify-center border border-white/10 mb-4 text-textMuted">
                 <Target className="w-8 h-8" />
               </div>
-              <h3 className="text-white font-medium text-lg mb-2">No Executions Found</h3>
-              <p className="text-sm text-textMuted max-w-sm">Deploy your first agent pipeline to generate highly optimized applications.</p>
+              <h3 className="text-white font-medium text-lg mb-2">No resumes yet</h3>
+              <p className="text-sm text-textMuted max-w-sm">Paste a job description and we'll build your first tailored resume in seconds.</p>
             </div>
           )}
         </div>

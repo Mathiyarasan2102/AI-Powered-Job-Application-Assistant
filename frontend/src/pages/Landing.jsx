@@ -10,40 +10,40 @@ const FEATURES = [
     color: 'text-primary',
     bg: 'bg-primary/10',
     border: 'border-primary/20',
-    title: 'ATS Score Matching',
-    desc: 'Every generated resume is scored against your target JD\'s exact keywords, ensuring maximum ATS visibility.',
+    title: 'Keyword Match Score',
+    desc: 'Every resume is scored against the job description so you know exactly how well you fit before you apply.',
   },
   {
     icon: FileText,
     color: 'text-secondary',
     bg: 'bg-secondary/10',
     border: 'border-secondary/20',
-    title: 'PDF Resume Builder',
-    desc: 'Instantly renders a pixel-perfect, professional PDF resume formatted for modern ATS systems.',
+    title: 'Resume PDF Builder',
+    desc: 'Get a clean, polished PDF resume ready to download — formatted for modern hiring systems.',
   },
   { 
     icon: Mail,
     color: 'text-white',
     bg: 'bg-white/10',
     border: 'border-white/10',
-    title: 'Cold Email Engine',
-    desc: 'Generates hyper-personalized, persuasive cold emails and cover letters tailored to each company.',
+    title: 'Cold Email & Cover Letter',
+    desc: 'Get a personalized cold email and cover letter written to match the company and role — every time.',
   },
   {
     icon: BarChart3,
     color: 'text-primary',
     bg: 'bg-primary/10',
     border: 'border-primary/20',
-    title: 'Batch Pipeline Mode',
-    desc: 'Paste multiple JDs at once. The AI filters only roles that match your skill profile, then generates all at once.',
+    title: 'Batch Apply Mode',
+    desc: 'Paste multiple job descriptions at once. We\'ll find the ones that match your skills and generate everything in bulk.',
   },
 ];
 
 const STEPS = [
-  { num: '01', label: 'Set up Profile', desc: 'Upload your base resume or fill in your info once.' },
-  { num: '02', label: 'Drop a JD', desc: 'Paste any job description or screenshot of a job post.' },
-  { num: '03', label: 'Agent Executes', desc: 'AI generates your tailored resume, cold email & cover letter.' },
-  { num: '04', label: 'Apply & Win', desc: 'Download your PDF and copy your email — ready to send.' },
+  { num: '01', label: 'Set up your profile', desc: 'Add your skills, experience, and links once. We\'ll handle the rest.' },
+  { num: '02', label: 'Paste a job description', desc: 'Drop in any JD — from LinkedIn, Naukri, or wherever you found it.' },
+  { num: '03', label: 'We build your materials', desc: 'Your resume, cold email, and cover letter are ready in under a minute.' },
+  { num: '04', label: 'Apply with confidence', desc: 'Download the PDF, copy your email, and hit send.' },
 ];
 
 export default function Landing() {
@@ -74,7 +74,7 @@ export default function Landing() {
               >
                 <div className="w-2 h-2 rounded-full bg-primary animate-pulse"></div>
                 <span className="text-[10px] font-mono font-bold uppercase tracking-widest text-textMuted">
-                  AI Career Agent · Online
+                  Resume Assistant · Ready
                 </span>
               </motion.div>
 
@@ -84,9 +84,9 @@ export default function Landing() {
                 animate={{ y: 0, opacity: 1 }}
                 transition={{ delay: 0.2, duration: 0.7 }}
               >
-                <span className="text-white block">Dominate</span>
+                <span className="text-white block">Land more</span>
                 <span className="bg-clip-text text-transparent bg-gradient-to-r from-primary via-[#a0ff60] to-secondary">
-                  Every Job Post.
+                  jobs you love.
                 </span>
               </motion.h1>
 
@@ -96,7 +96,7 @@ export default function Landing() {
                 animate={{ y: 0, opacity: 1 }}
                 transition={{ delay: 0.35, duration: 0.6 }}
               >
-                Drop any job description. The AI engine instantly crafts a pixel-perfect, ATS-crushing resume and a tailored cold email — in under 60 seconds.
+                Paste any job description. We'll write a tailored resume and a personalized cold email for that exact role — in under a minute.
               </motion.p>
 
               <motion.div
@@ -107,12 +107,12 @@ export default function Landing() {
               >
                 <Link to="/register" className="w-full sm:w-auto">
                   <button className="btn-primary w-full py-4 px-10 text-base shadow-[0_0_40px_rgba(212,255,0,0.2)]">
-                    Deploy Agent Free <ArrowRight className="w-5 h-5" />
+                    Get started free <ArrowRight className="w-5 h-5" />
                   </button>
                 </Link>
                 <Link to="/login" className="w-full sm:w-auto">
                   <button className="btn-secondary w-full py-4 px-10 text-base">
-                    System Login
+                    Sign in
                   </button>
                 </Link>
               </motion.div>
@@ -125,15 +125,15 @@ export default function Landing() {
               >
                 <div className="flex items-center gap-2">
                   <CheckCircle2 className="w-4 h-4 text-primary flex-shrink-0" />
-                  <span>Zero configuration</span>
+                  <span>No setup needed</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <CheckCircle2 className="w-4 h-4 text-secondary flex-shrink-0" />
-                  <span>Instant PDF delivery</span>
+                  <span>Download PDF instantly</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <CheckCircle2 className="w-4 h-4 text-white/50 flex-shrink-0" />
-                  <span>100% free to start</span>
+                  <span>Free to start</span>
                 </div>
               </motion.div>
             </div>
@@ -158,7 +158,7 @@ export default function Landing() {
                   </div>
                   <div className="text-[10px] text-textMuted uppercase font-mono tracking-widest flex items-center gap-2">
                     <div className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse"></div>
-                    Pipeline Active
+                    Generating...
                   </div>
                 </div>
 
@@ -191,8 +191,8 @@ export default function Landing() {
                     <span className="absolute inset-0 flex items-center justify-center text-xs font-bold font-mono text-white">92</span>
                   </div>
                   <div>
-                    <div className="text-white font-semibold text-sm mb-0.5">ATS Match Score</div>
-                    <div className="text-xs text-primary font-mono font-bold">EXCELLENT · Ready to send</div>
+                    <div className="text-white font-semibold text-sm mb-0.5">Keyword match</div>
+                    <div className="text-xs text-primary font-mono font-bold">EXCELLENT · Ready to apply</div>
                   </div>
                 </div>
               </div>
@@ -234,13 +234,13 @@ export default function Landing() {
         >
           <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/5 border border-white/10 mb-5">
             <Sparkles className="w-3 h-3 text-primary" />
-            <span className="text-[10px] font-mono uppercase tracking-widest text-textMuted">Capabilities</span>
+            <span className="text-[10px] font-mono uppercase tracking-widest text-textMuted">What's included</span>
           </div>
           <h2 className="text-4xl md:text-5xl font-display font-extrabold text-white mb-4">
-            Everything you need<br />to land the role.
+            Everything you need<br />to get hired.
           </h2>
           <p className="text-textMuted text-lg max-w-xl mx-auto font-light">
-            One intelligent agent. Four weapons. All deployed the instant you paste a job description.
+            Paste a job description and get a tailored resume, cold email, and cover letter — all at once.
           </p>
         </motion.div>
 
@@ -277,10 +277,10 @@ export default function Landing() {
         >
           <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/5 border border-white/10 mb-5">
             <Zap className="w-3 h-3 text-secondary" />
-            <span className="text-[10px] font-mono uppercase tracking-widest text-textMuted">Pipeline</span>
+            <span className="text-[10px] font-mono uppercase tracking-widest text-textMuted">How it works</span>
           </div>
           <h2 className="text-4xl md:text-5xl font-display font-extrabold text-white mb-4">
-            From JD to offer letter<br />in four steps.
+            From job description<br />to ready to apply — fast.
           </h2>
         </motion.div>
 
@@ -319,17 +319,17 @@ export default function Landing() {
           <div className="relative z-10">
             <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/5 border border-white/10 mb-8">
               <Bot className="w-3 h-3 text-primary" />
-              <span className="text-[10px] font-mono uppercase tracking-widest text-textMuted">Start Free</span>
+              <span className="text-[10px] font-mono uppercase tracking-widest text-textMuted">Free to start</span>
             </div>
             <h2 className="text-4xl md:text-6xl font-display font-extrabold text-white mb-6 leading-tight">
-              Your next job is<br />one click away.
+              Your next role is<br />closer than you think.
             </h2>
             <p className="text-textMuted text-lg mb-10 max-w-lg mx-auto font-light">
-              Stop sending generic resumes. Let the AI engine architect your next opportunity — in seconds.
+              Stop sending the same resume everywhere. Create targeted applications that actually get responses.
             </p>
             <Link to="/register">
               <button className="btn-primary py-5 px-14 text-lg shadow-[0_0_50px_rgba(212,255,0,0.25)]">
-                Initialize Your Agent <ArrowRight className="w-5 h-5" />
+                Create your free account <ArrowRight className="w-5 h-5" />
               </button>
             </Link>
           </div>

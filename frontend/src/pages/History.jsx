@@ -82,22 +82,22 @@ export default function History() {
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-14">
           <div>
             <Link to="/dashboard" className="inline-flex items-center gap-1.5 text-textMuted hover:text-white mb-5 transition-colors text-sm font-medium">
-              <ArrowLeft className="w-4 h-4" /> Back to Command Center
+              <ArrowLeft className="w-4 h-4" /> Back to Dashboard
             </Link>
             <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/5 border border-white/10 mb-4 ml-2">
               <div className="w-2 h-2 rounded-full bg-secondary"></div>
-              <span className="text-[10px] font-mono uppercase tracking-widest text-textMuted">Activity Log</span>
+              <span className="text-[10px] font-mono uppercase tracking-widest text-textMuted">Your history</span>
             </div>
             <h1 className="text-5xl lg:text-6xl font-display font-extrabold text-white tracking-tight leading-none mb-3">
-              Execution History
+              Resume History
             </h1>
             <p className="text-textMuted text-lg font-light">
-              {history.length} pipeline{history.length !== 1 ? 's' : ''} on record.
+              {history.length} resume{history.length !== 1 ? 's' : ''} created.
             </p>
           </div>
           <Link to="/job/new">
             <button className="btn-primary w-full md:w-auto">
-              <Plus className="w-4 h-4" /> New Pipeline
+              <Plus className="w-4 h-4" /> New resume
             </button>
           </Link>
         </div>
@@ -113,10 +113,10 @@ export default function History() {
             <div className="w-20 h-20 rounded-3xl bg-white/5 border border-white/10 flex items-center justify-center mb-6">
               <Clock className="w-10 h-10 text-textMuted" />
             </div>
-            <h3 className="text-2xl text-white font-display font-bold mb-2">No Executions Found</h3>
-            <p className="text-textMuted mb-8 max-w-sm">Deploy your first agent pipeline to see activity logs here.</p>
+            <h3 className="text-2xl text-white font-display font-bold mb-2">No resumes yet</h3>
+            <p className="text-textMuted mb-8 max-w-sm">Create your first application to see everything here.</p>
             <Link to="/job/new">
-              <button className="btn-primary">Initialize First Pipeline</button>
+              <button className="btn-primary">Create your first resume</button>
             </Link>
           </motion.div>
         ) : (

@@ -15,7 +15,7 @@ export default function Footer() {
                             AI<span className="text-secondary text-indigo-400">Job</span>Assistant
                         </span>
                         <p className="max-w-[400px] mt-4 text-sm leading-relaxed">
-                            Craft perfect job applications instantly. ATS-optimized resumes and high-converting emails tailored specifically for your target role.
+                            Write targeted resumes and personalized emails for every role you apply to — without the grind.
                         </p>
                     </div>
 

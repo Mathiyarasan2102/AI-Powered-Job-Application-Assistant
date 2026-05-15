@@ -35,7 +35,7 @@ export default function Login() {
           <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-primary/10 border border-primary/20 mb-4">
             <Bot className="w-7 h-7 text-primary" />
           </div>
-          <div className="text-xs font-mono uppercase tracking-widest text-textMuted">AI Job Assistant</div>
+          <div className="text-xs font-mono uppercase tracking-widest text-textMuted">Resume Assistant</div>
         </motion.div>
 
         <motion.div
@@ -45,8 +45,8 @@ export default function Login() {
           className="glass-panel p-8 md:p-10 border border-white/[0.06]"
         >
           <div className="mb-8">
-            <h1 className="text-3xl font-display font-extrabold text-white mb-2">System Login</h1>
-            <p className="text-textMuted text-sm">Authenticate to access your career pipeline.</p>
+            <h1 className="text-3xl font-display font-extrabold text-white mb-2">Welcome back</h1>
+            <p className="text-textMuted text-sm">Sign in to continue building your applications.</p>
           </div>
 
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
@@ -86,19 +86,19 @@ export default function Login() {
               {loading ? (
                 <span className="inline-flex items-center gap-2">
                   <span className="w-4 h-4 rounded-full border-2 border-black/30 border-t-black animate-spin"></span>
-                  Authenticating...
+                  Signing in...
                 </span>
               ) : (
-                <>Authenticate <ArrowRight className="w-4 h-4" /></>
+                <>Sign in <ArrowRight className="w-4 h-4" /></>
               )}
             </button>
           </form>
 
           <div className="mt-6 pt-6 border-t border-white/[0.06] text-center">
             <p className="text-sm text-textMuted">
-              No account?{' '}
+              Don't have an account?{' '}
               <Link to="/register" className="text-primary hover:text-white font-medium transition-colors">
-                Initialize one →
+                Sign up →
               </Link>
             </p>
           </div>

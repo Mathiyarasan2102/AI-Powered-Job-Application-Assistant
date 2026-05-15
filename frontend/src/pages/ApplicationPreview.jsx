@@ -128,8 +128,8 @@ export default function ApplicationPreview() {
           <Link to={fromHistory ? "/history" : "/job/new"} className="flex items-center gap-2 text-textMuted hover:text-white mb-3 transition-colors text-sm">
             <ArrowLeft className="w-4 h-4" /> {fromHistory ? "Back to History" : "New Application"}
           </Link>
-          <h1 className="text-3xl font-display font-bold text-white mb-1">Application Package Ready</h1>
-          <p className="text-textMuted">Optimized specifically for this role.</p>
+          <h1 className="text-3xl font-display font-bold text-white mb-1">Your application is ready</h1>
+          <p className="text-textMuted">Tailored for this role. Download, copy, and apply.</p>
         </motion.div>
         
         {/* Score Card */}
@@ -154,7 +154,7 @@ export default function ApplicationPreview() {
           </div>
           <div>
             <div className="text-sm font-medium text-white">{getScoreLabel()}</div>
-            <div className="text-xs text-textMuted">Keyword Match</div>
+            <div className="text-xs text-textMuted">Match score</div>
           </div>
         </motion.div>
       </div>
@@ -165,7 +165,7 @@ export default function ApplicationPreview() {
           <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="glass-panel p-4">
             <div className="flex items-center gap-2 mb-3">
               <Sparkles className="w-4 h-4 text-emerald-400" />
-              <h4 className="text-sm font-medium text-emerald-400">Matched Keywords ({activeMatched.length})</h4>
+              <h4 className="text-sm font-medium text-emerald-400">Matched keywords ({activeMatched.length})</h4>
             </div>
             <div className="flex flex-wrap gap-1.5">
               <AnimatePresence>
@@ -189,8 +189,8 @@ export default function ApplicationPreview() {
           <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="glass-panel p-4">
             <div className="flex items-center gap-2 mb-3">
               <AlertTriangle className="w-4 h-4 text-amber-400" />
-              <h4 className="text-sm font-medium text-amber-400">Missing Keywords ({activeMissing.length})</h4>
-              <span className="text-[10px] text-amber-400/60 ml-auto">Click to add as skill</span>
+              <h4 className="text-sm font-medium text-amber-400">Missing keywords ({activeMissing.length})</h4>
+              <span className="text-[10px] text-amber-400/60 ml-auto">Click to add to your profile</span>
             </div>
             <div className="flex flex-wrap gap-1.5">
               <AnimatePresence>
@@ -220,7 +220,7 @@ export default function ApplicationPreview() {
         {generatedResume ? (
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }} className="space-y-4">
             <div className="flex items-center justify-between">
-              <h2 className="text-2xl font-display text-white">Targeted Resume</h2>
+              <h2 className="text-2xl font-display text-white">Your resume</h2>
               <div className="flex gap-2">
                 {pdfUrl && (
                   <a href={`${API_BASE_URL}${pdfUrl}`} download target="_blank" rel="noreferrer" className="btn-primary text-xs py-2 px-4 shadow-none">
@@ -273,7 +273,7 @@ export default function ApplicationPreview() {
           {generatedEmail && (
             <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }} className="space-y-4">
               <div className="flex items-center justify-between">
-                <h2 className="text-2xl font-display text-white">Cold Email</h2>
+                <h2 className="text-2xl font-display text-white">Cold email</h2>
                 <div className="flex gap-1">
                   <button onClick={handleCopy} className="p-2 text-textMuted hover:text-white transition-colors rounded-lg hover:bg-white/5" title="Copy Email">
                     {copied ? <Check className="w-4 h-4 text-emerald-400" /> : <Copy className="w-4 h-4" />}
@@ -308,7 +308,7 @@ export default function ApplicationPreview() {
           {generatedCoverLetter && (
             <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }} className="space-y-4">
               <div className="flex items-center justify-between">
-                <h2 className="text-2xl font-display text-white">Cover Letter</h2>
+                <h2 className="text-2xl font-display text-white">Cover letter</h2>
                 <button onClick={handleCopyCover} className="p-2 text-textMuted hover:text-white transition-colors rounded-lg hover:bg-white/5" title="Copy Cover Letter">
                   {copiedCover ? <Check className="w-4 h-4 text-emerald-400" /> : <Copy className="w-4 h-4" />}
                 </button>
@@ -324,12 +324,12 @@ export default function ApplicationPreview() {
 
           {/* Quick Tips */}
           <div className="glass-panel p-5 border-l-4 border-indigo-500">
-            <h3 className="text-sm font-medium text-white mb-2">💡 Pro Tips</h3>
+            <h3 className="text-sm font-medium text-white mb-2">💡 Quick tips</h3>
             <ul className="text-xs text-textMuted space-y-1.5">
-              <li>• Personalize the email with the hiring manager's name if you know it</li>
-              <li>• Attach your generated PDF resume to the email</li>
-              <li>• Follow up if you don't hear back within 5-7 business days</li>
-              <li>• Send the email between 8-10 AM in the recipient's timezone</li>
+              <li>• Add the hiring manager's name to the email if you can find it</li>
+              <li>• Attach your PDF resume when you send the email</li>
+              <li>• Follow up after 5–7 business days if you don't hear back</li>
+              <li>• Send between 8–10 AM in the recipient's timezone for best results</li>
             </ul>
           </div>
         </div>

@@ -3,6 +3,87 @@ require('dotenv').config();
 
 const OPENROUTER_API_URL = 'https://openrouter.ai/api/v1/chat/completions';
 
+// ─── Master AI Orchestration System Prompt ─────────────────
+// This is the base persona and reasoning framework injected into
+// every AI call. All per-route system messages are appended AFTER this.
+const MASTER_SYSTEM_PROMPT = `
+You are an advanced AI orchestration engine designed for intelligent resume generation,
+ATS optimization, career assistance, document automation, and structured reasoning workflows.
+
+========================
+CORE BEHAVIOR
+========================
+
+Always analyze before generating. Never directly generate output without:
+- understanding context
+- extracting intent
+- identifying goals
+- evaluating constraints
+- planning output structure
+
+Use: INPUT → ANALYSIS → STRATEGY → GENERATION → VALIDATION
+(never INPUT → GENERATION directly)
+
+========================
+OUTPUT QUALITY RULES
+========================
+
+Generate outputs that are:
+- professional, realistic, optimized, human-like
+- concise when needed, detailed when needed
+- context-aware and role-specific
+
+Avoid:
+- generic responses, repeated phrases, robotic tone
+- filler content, hallucinated experience
+- buzzword stuffing, fake metrics, vague descriptions
+
+========================
+ATS RESUME OPTIMIZATION
+========================
+
+When generating resumes:
+1. Extract keywords from job description.
+2. Prioritize relevant skills and match role-specific terminology.
+3. Optimize bullet points using: Action Verb + Task + Impact
+   Example: "Built responsive React dashboards reducing manual reporting time by 40%."
+4. Quantify impact whenever possible.
+5. Keep formatting clean and ATS-safe (no tables unless explicitly requested).
+6. Tailor every resume to the specific target role.
+
+========================
+ADVANCED GENERATION RULES
+========================
+
+Prefer:
+- quantified achievements, technical specificity
+- concise language, strong action verbs, measurable outcomes
+
+Avoid:
+- repetitive wording, weak/generic lines, markdown formatting in output text
+  (no **asterisks**, no # hashtags in resume/email/cover letter content)
+
+========================
+VALIDATION LAYER
+========================
+
+Before returning any output verify:
+✔ Is it relevant to the target role?
+✔ Is it ATS-friendly?
+✔ Is formatting correct and complete?
+✔ Is content realistic (no hallucinated experience)?
+✔ Is grammar professional?
+✔ Is JSON valid and well-formed (no trailing commas, all brackets closed)?
+
+========================
+AI PERSONALITY
+========================
+
+Operate as a combined senior recruiter + ATS expert + career strategist +
+technical writer + AI automation assistant in one unified system.
+Tone: intelligent, supportive, professional, strategic, concise, practical.
+`.trim();
+
 // ─── OpenRouter (Cloud) ────────────────────────────────────
 async function generateWithOpenRouter(prompt, systemMessage = '') {
     const models = [
@@ -159,7 +240,11 @@ module.exports = {
      */
     async generateJSON(prompt, systemMessage = '') {
         const provider = (process.env.AI_PROVIDER || 'openrouter').toLowerCase();
-        const sysMsg = systemMessage + '\nIMPORTANT: Your response must be purely a valid JSON object. Do not include markdown code block syntax (like ```json), just the plain raw JSON.';
+        // Prepend master orchestration context, then append the per-call specialist instruction
+        const combinedSys = systemMessage
+            ? `${MASTER_SYSTEM_PROMPT}\n\n${systemMessage}`
+            : MASTER_SYSTEM_PROMPT;
+        const sysMsg = combinedSys + '\nIMPORTANT: Your response must be purely a valid JSON object. Do not include markdown code block syntax (like ```json), just the plain raw JSON.';
 
         const MAX_RETRIES = 3;
         for (let attempt = 1; attempt <= MAX_RETRIES; attempt++) {
@@ -211,15 +296,19 @@ module.exports = {
      */
     async generateText(prompt, systemMessage = '') {
         const provider = (process.env.AI_PROVIDER || 'openrouter').toLowerCase();
+        // Prepend master orchestration context
+        const combinedSys = systemMessage
+            ? `${MASTER_SYSTEM_PROMPT}\n\n${systemMessage}`
+            : MASTER_SYSTEM_PROMPT;
 
         if (provider === 'ollama') {
-            return await generateWithOllama(prompt, systemMessage);
+            return await generateWithOllama(prompt, combinedSys);
         } else {
             try {
-                return await generateWithOpenRouter(prompt, systemMessage);
+                return await generateWithOpenRouter(prompt, combinedSys);
             } catch (openRouterErr) {
                 console.log('OpenRouter models failed. Automatically switching to Ollama Cloud models...');
-                return await generateWithOllama(prompt, systemMessage);
+                return await generateWithOllama(prompt, combinedSys);
             }
         }
     }

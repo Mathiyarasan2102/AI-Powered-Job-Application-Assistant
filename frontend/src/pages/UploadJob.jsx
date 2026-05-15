@@ -10,10 +10,10 @@ import { useNavigate } from 'react-router-dom';
 import { toast } from '../components/Toast';
 
 const STEPS = [
-  { label: 'Parsing job description', icon: FileSearch, duration: 'Extracting requirements...' },
-  { label: 'Generating ATS resume', icon: FileText, duration: 'Optimizing for keywords...' },
-  { label: 'Crafting cold email', icon: Mail, duration: 'Writing personalized email...' },
-  { label: 'Compiling PDF', icon: Zap, duration: 'Rendering PDF...' }
+  { label: 'Reading the job description', icon: FileSearch, duration: 'Picking out the key details...' },
+  { label: 'Writing your resume', icon: FileText, duration: 'Tailoring it to this role...' },
+  { label: 'Drafting your cold email', icon: Mail, duration: 'Personalizing for this company...' },
+  { label: 'Building your PDF', icon: Zap, duration: 'Almost done...' }
 ];
 
 export default function UploadJob() {
@@ -205,11 +205,11 @@ export default function UploadJob() {
         <div className="mb-12">
           <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/5 border border-white/10 mb-4">
             <div className="w-2 h-2 rounded-full bg-primary animate-pulse"></div>
-            <span className="text-[10px] font-mono uppercase tracking-widest text-textMuted">Agent Configuration</span>
+            <span className="text-[10px] font-mono uppercase tracking-widest text-textMuted">Build resume</span>
           </div>
-          <h1 className="text-5xl lg:text-6xl font-display font-extrabold text-white tracking-tight leading-none mb-3">Deploy Agent</h1>
+          <h1 className="text-5xl lg:text-6xl font-display font-extrabold text-white tracking-tight leading-none mb-3">New Application</h1>
           <p className="text-textMuted text-lg font-light max-w-xl">
-            Provide a job description. The AI engine analyses, matches, and generates ATS-ready materials.
+            Paste a job description and we'll write a tailored resume, cold email, and cover letter for that role.
           </p>
         </div>
 
@@ -252,8 +252,8 @@ export default function UploadJob() {
                   <Zap className="w-8 h-8 text-primary" />
                   <div className="absolute inset-0 rounded-2xl animate-ping bg-primary/10"></div>
                 </div>
-                <h2 className="text-2xl font-display font-bold text-white mb-2">Agent Active</h2>
-                <p className="text-textMuted">Pipeline executing — typically 30–60 seconds...</p>
+                <h2 className="text-2xl font-display font-bold text-white mb-2">Working on it...</h2>
+                <p className="text-textMuted">This usually takes about 30–60 seconds.</p>
               </div>
               <div className="space-y-3 max-w-sm mx-auto">
                 {STEPS.map((step, i) => (
@@ -302,11 +302,11 @@ export default function UploadJob() {
               <div className="glass-panel p-8 border border-white/5 space-y-6">
                 <div>
                   <label className="flex items-center gap-2 text-white font-semibold mb-4 text-xs uppercase tracking-widest font-mono">
-                    <MessageSquare className="w-4 h-4 text-primary" /> Paste Job Text
+                    <MessageSquare className="w-4 h-4 text-primary" /> Paste the job description
                   </label>
                   <textarea
                     className="input-field min-h-[200px] resize-y"
-                    placeholder="Paste the complete job description here..."
+                    placeholder="Paste the full job description here..."
                     value={text}
                     onChange={e => setText(e.target.value)}
                   />
@@ -321,7 +321,7 @@ export default function UploadJob() {
 
                 <div>
                   <label className="flex items-center gap-2 text-white font-semibold mb-4 text-xs uppercase tracking-widest font-mono">
-                    <UploadCloud className="w-4 h-4 text-secondary" /> Upload Screenshot
+                    <UploadCloud className="w-4 h-4 text-secondary" /> Or upload a screenshot
                   </label>
                   <label
                     onDragOver={handleDragOver}
@@ -346,7 +346,7 @@ export default function UploadJob() {
 
                 {/* GENERATION OPTIONS */}
                 <div className="border border-white/[0.06] bg-white/[0.02] p-5 rounded-2xl space-y-4">
-                  <p className="text-[10px] font-mono uppercase tracking-widest text-textMuted">Output Configuration</p>
+                  <p className="text-[10px] font-mono uppercase tracking-widest text-textMuted">What to generate</p>
                   <div className="flex flex-wrap gap-8">
                     <label className="flex items-center gap-3 cursor-pointer group">
                       <div className="relative flex items-center">
@@ -377,7 +377,7 @@ export default function UploadJob() {
               </div>
 
               <button type="submit" disabled={loading || (!text && !file) || (!genOpts.resume && !genOpts.email && !genOpts.coverLetter)} className="btn-primary w-full py-5 text-base disabled:opacity-50">
-                <Zap className="w-5 h-5" /> Execute Pipeline
+                <Zap className="w-5 h-5" /> Generate application
               </button>
             </motion.form>
 
@@ -469,7 +469,7 @@ export default function UploadJob() {
                     className="btn-primary w-full py-4 text-lg"
                   >
                     {isBusy ? <Loader2 className="w-5 h-5 animate-spin" /> : <ListFilter className="w-5 h-5" />}
-                    {isBusy ? 'Analysing & Matching...' : 'Match Jobs to My Skills'}
+                    {isBusy ? 'Matching your skills...' : 'Find matching jobs'}
                   </button>
                 </form>
               )}
@@ -522,7 +522,7 @@ export default function UploadJob() {
                         >
                           {generatingAll
                             ? <><Loader2 className="w-4 h-4 animate-spin" /> {generateAllProgress.current}/{generateAllProgress.total}...</>
-                            : <><Zap className="w-4 h-4" /> Generate All</>}
+                           : <><Zap className="w-4 h-4" /> Generate all</>}
                         </button>
                       )}
                       <button
@@ -631,7 +631,7 @@ export default function UploadJob() {
                   {batchResults.skippedCount > 0 && (
                     <div>
                       <h3 className="text-textMuted font-semibold mb-3 flex items-center gap-2 text-xs uppercase tracking-widest font-mono">
-                        <XCircle className="w-4 h-4 text-textMuted" /> Filtered Out (Low Match)
+                        <XCircle className="w-4 h-4 text-textMuted" /> Not a good fit
                       </h3>
                       <div className="space-y-2">
                         {batchResults.skipped.map((job, i) => (
