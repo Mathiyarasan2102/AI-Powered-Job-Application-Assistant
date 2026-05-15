@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useJobStore } from '../store/useJobStore';
 import { motion, AnimatePresence } from 'framer-motion';
-import { FileText, Download, Trash2, Clock, Target, Calendar, Building2, ArrowLeft, Plus, AlertTriangle } from 'lucide-react';
+import { FileText, Download, Trash2, Clock, Target, Calendar, Building2, ArrowLeft, Plus, AlertTriangle, Search, X } from 'lucide-react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { toast } from '../components/Toast';
 import { API_BASE_URL } from '../api/axios';
@@ -98,6 +98,7 @@ export default function History() {
   const navigate = useNavigate();
   const location = useLocation();
   const [highlightedIds, setHighlightedIds] = useState(location.state?.newGeneratedIds || []);
+  const [search, setSearch] = useState('');
 
   useEffect(() => {
     if (highlightedIds.length > 0) {
@@ -187,6 +188,28 @@ export default function History() {
             </Link>
           </div>
 
+          {/* Search Bar */}
+          {history.length > 0 && (
+            <div className="relative mb-6">
+              <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-textMuted pointer-events-none" />
+              <input
+                type="text"
+                value={search}
+                onChange={e => setSearch(e.target.value)}
+                placeholder="Search by role or company..."
+                className="w-full pl-11 pr-10 py-3.5 bg-white/[0.03] border border-white/[0.08] rounded-2xl text-white text-sm placeholder:text-textMuted/50 focus:outline-none focus:border-white/20 focus:bg-white/[0.05] transition-all duration-200"
+              />
+              {search && (
+                <button
+                  onClick={() => setSearch('')}
+                  className="absolute right-3.5 top-1/2 -translate-y-1/2 w-6 h-6 flex items-center justify-center rounded-lg text-textMuted hover:text-white hover:bg-white/10 transition-colors"
+                >
+                  <X className="w-3.5 h-3.5" />
+                </button>
+              )}
+            </div>
+          )}
+
           {historyLoading ? (
             <div className="space-y-4">
               {[1, 2, 3].map(i => (
@@ -204,10 +227,33 @@ export default function History() {
                 <button className="btn-primary">Create your first resume</button>
               </Link>
             </motion.div>
-          ) : (
-            <div className="space-y-3">
-              <AnimatePresence>
-                {history.map((resume, idx) => (
+          ) : (() => {
+            const q = search.trim().toLowerCase();
+            const filtered = q
+              ? history.filter(r =>
+                  (r.jobTitle || '').toLowerCase().includes(q) ||
+                  (r.companyName || '').toLowerCase().includes(q)
+                )
+              : history;
+            return filtered.length === 0 ? (
+              <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="glass-panel p-16 text-center flex flex-col items-center">
+                <div className="w-16 h-16 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center mb-4">
+                  <Search className="w-8 h-8 text-textMuted" />
+                </div>
+                <h3 className="text-xl text-white font-display font-bold mb-2">No results</h3>
+                <p className="text-textMuted text-sm">No resumes match <span className="text-white font-medium">"{search}"</span></p>
+                <button onClick={() => setSearch('')} className="mt-5 text-xs text-primary hover:text-white transition-colors">Clear search</button>
+              </motion.div>
+            ) : (
+              <>
+                {q && (
+                  <p className="text-xs text-textMuted mb-3 pl-1">
+                    {filtered.length} result{filtered.length !== 1 ? 's' : ''} for <span className="text-white">"{search}"</span>
+                  </p>
+                )}
+                <div className="space-y-3">
+                <AnimatePresence>
+                  {filtered.map((resume, idx) => (
                   <motion.div
                     key={resume._id}
                     initial={{ opacity: 0, y: 20 }}
@@ -287,8 +333,10 @@ export default function History() {
                   </motion.div>
                 ))}
               </AnimatePresence>
-            </div>
-          )}
+              </div>
+              </>
+            );
+          })()}
         </motion.div>
       </div>
     </>
