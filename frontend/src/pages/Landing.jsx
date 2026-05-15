@@ -74,7 +74,7 @@ export default function Landing() {
               >
                 <div className="w-2 h-2 rounded-full bg-primary animate-pulse"></div>
                 <span className="text-[10px] font-mono font-bold uppercase tracking-widest text-textMuted">
-                  Resume Assistant · Ready
+                  ResuForge · Ready
                 </span>
               </motion.div>
 

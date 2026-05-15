@@ -35,7 +35,7 @@ export default function Login() {
           <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-primary/10 border border-primary/20 mb-4">
             <Bot className="w-7 h-7 text-primary" />
           </div>
-          <div className="text-xs font-mono uppercase tracking-widest text-textMuted">Resume Assistant</div>
+          <div className="text-xs font-mono uppercase tracking-widest text-textMuted">ResuForge</div>
         </motion.div>
 
         <motion.div

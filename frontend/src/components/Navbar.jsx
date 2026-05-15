@@ -57,7 +57,7 @@ export default function Navbar() {
                 <Sparkles className="w-4 h-4 text-primary" />
               </div>
               <span className="font-display font-bold text-[15px] tracking-wide text-white">
-                AI<span className="text-primary">Job</span>
+                Resu<span className="text-primary">Forge</span>
               </span>
             </Link>
 

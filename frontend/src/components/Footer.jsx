@@ -12,7 +12,7 @@ export default function Footer() {
                 <div className="flex flex-col md:flex-row items-center justify-between py-6 border-b border-white/5">
                     <div className="mb-4 md:mb-0">
                         <span className="font-display font-bold text-xl tracking-wide text-white">
-                            AI<span className="text-secondary text-indigo-400">Job</span>Assistant
+                            Resu<span className="text-primary">Forge</span>
                         </span>
                         <p className="max-w-[400px] mt-4 text-sm leading-relaxed">
                             Write targeted resumes and personalized emails for every role you apply to — without the grind.
@@ -37,7 +37,7 @@ export default function Footer() {
                     </div>
                 </div>
                 <p className="py-6 text-center text-sm text-gray-500">
-                    © {new Date().getFullYear()} AI Job Assistant. All rights reserved.
+                    © {new Date().getFullYear()} ResuForge. All rights reserved.
                 </p>
             </div>
         </motion.footer>
