@@ -8,7 +8,7 @@ import api, { API_BASE_URL } from '../api/axios';
 import { toast } from '../components/Toast';
 
 export default function ApplicationPreview() {
-  const { generatedResume, generatedEmail, generatedCoverLetter, pdfUrl, score, matchedKeywords, missingKeywords } = useJobStore();
+  const { jobData, generatedResume, generatedEmail, generatedCoverLetter, pdfUrl, score, matchedKeywords, missingKeywords } = useJobStore();
   const { user, updateProfile } = useAuthStore();
   const location = useLocation();
   const fromHistory = location.state?.from === '/history';
@@ -64,9 +64,14 @@ export default function ApplicationPreview() {
 
   const handleMail = () => {
     if (!generatedEmail) return;
-    const subject = encodeURIComponent(generatedEmail.subject);
-    const body = encodeURIComponent(generatedEmail.body);
-    window.location.href = `mailto:?subject=${subject}&body=${body}`;
+    const subject = encodeURIComponent(generatedEmail.subject || '');
+    const body = encodeURIComponent(generatedEmail.body || '');
+    const to = jobData?.hrEmail ? encodeURIComponent(jobData.hrEmail) : '';
+    // Build mailto: — include to: only if HR email was provided
+    const mailto = to
+      ? `mailto:${to}?subject=${subject}&body=${body}`
+      : `mailto:?subject=${subject}&body=${body}`;
+    window.location.href = mailto;
   };
 
   const handleShare = async () => {

@@ -26,6 +26,7 @@ export default function UploadJob() {
   // ── Single mode state
   const [text, setText] = useState('');
   const [file, setFile] = useState(null);
+  const [hrEmail, setHrEmail] = useState('');
   const [isDragging, setIsDragging] = useState(false);
   const [currentStep, setCurrentStep] = useState(-1);
 
@@ -69,6 +70,8 @@ export default function UploadJob() {
     try {
       setCurrentStep(0);
       const jobData = await parseJob(formData);
+      // Attach optional HR email to jobData so preview can pre-fill mailto: To
+      if (hrEmail.trim()) jobData.hrEmail = hrEmail.trim();
       setCurrentStep(1);
       await generateApplication(jobData, genOpts);
       setCurrentStep(3);
@@ -309,6 +312,20 @@ export default function UploadJob() {
                     placeholder="Paste the full job description here..."
                     value={text}
                     onChange={e => setText(e.target.value)}
+                  />
+                </div>
+
+                <div>
+                  <label className="flex items-center gap-2 text-white font-semibold mb-2 text-xs uppercase tracking-widest font-mono">
+                    <Mail className="w-4 h-4 text-secondary" /> HR / Recruiter Email
+                    <span className="text-textMuted font-normal normal-case tracking-normal text-[11px] ml-1">(optional — used to pre-fill the To: when you click Send)</span>
+                  </label>
+                  <input
+                    type="email"
+                    className="input-field"
+                    placeholder="hr@company.com"
+                    value={hrEmail}
+                    onChange={e => setHrEmail(e.target.value)}
                   />
                 </div>
 
