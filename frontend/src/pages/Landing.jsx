@@ -79,12 +79,12 @@ export default function Landing() {
               </motion.div>
 
               <motion.h1
-                className="text-6xl md:text-7xl lg:text-[5.5rem] font-display font-extrabold leading-[1.02] tracking-tight mb-8"
+                className="text-5xl md:text-6xl lg:text-7xl font-display font-extrabold leading-[1.08] tracking-tight mb-8"
                 initial={{ y: 30, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
                 transition={{ delay: 0.2, duration: 0.7 }}
               >
-                <span className="text-white block">Land more</span>
+                <span className="text-white">Land more </span>
                 <span className="bg-clip-text text-transparent bg-gradient-to-r from-primary via-[#a0ff60] to-secondary">
                   jobs you love.
                 </span>

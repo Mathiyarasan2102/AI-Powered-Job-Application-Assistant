@@ -173,6 +173,8 @@ CRITICAL RULES:
 - NEVER use Markdown formatting like **asterisks** or hashtags anywhere in your output. Do not bold text using asterisks.
 - Clean up the job title in your response. If it contains extra words like "- JOB POST", remove them so it reads cleanly (e.g. "ReactJS Developer").
 - If generating resume: keep to 1 page, no weak/generic lines.
+- RESUME SUMMARY RULE (MOST IMPORTANT): The resume "summary" field MUST be written specifically for the target job title "${jobData.job_title}". Frame the candidate AS a "${jobData.job_title}" — do NOT copy or recycle the candidate's stored profile summary. If the JD is for "React.js Developer", the summary must position the candidate as a React.js Developer. If the JD is for "Node.js Developer", position them as a Node.js Developer. The summary must reference the job's required skills and frame the candidate's experience in terms of THAT specific role.
+- RESUME TITLE RULE: The resume headline/title line must also match the target role (e.g. "React.js Developer | Frontend Developer" for a React JD, not "Full Stack Developer" unless the JD explicitly asks for that).
 - If generating email: use HR name if known, mention role, mention 1 relevant project, mention location/WFH match, keep under 100 words. ALWAYS include the user's phone number and email ID at the very end of the email.
 - If generating cover letter: be professional, highlight value proposition. ALWAYS include the user's phone number and email ID at the very end of the cover letter.
 

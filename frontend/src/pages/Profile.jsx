@@ -11,6 +11,63 @@ const TABS = [
   { id: 'manual', label: 'Manual Entry', icon: FileText },
 ];
 
+// ─── Skill Tag Input Component ───────────────────────────────
+function SkillTagInput({ skills, onChange }) {
+  const [input, setInput] = useState('');
+  const inputRef = useRef(null);
+
+  const addSkill = (raw) => {
+    const trimmed = raw.trim();
+    if (trimmed && !skills.includes(trimmed)) {
+      onChange([...skills, trimmed]);
+    }
+    setInput('');
+  };
+
+  const handleKeyDown = (e) => {
+    if (e.key === 'Enter') { e.preventDefault(); addSkill(input); }
+    if (e.key === ',') { e.preventDefault(); addSkill(input); }
+    if (e.key === 'Backspace' && input === '' && skills.length > 0) {
+      onChange(skills.slice(0, -1));
+    }
+  };
+
+  const removeSkill = (idx) => onChange(skills.filter((_, i) => i !== idx));
+
+  return (
+    <div
+      className="flex flex-wrap gap-2 p-3 min-h-[56px] bg-white/[0.04] border border-white/10 rounded-xl cursor-text focus-within:border-white/25 transition-colors"
+      onClick={() => inputRef.current?.focus()}
+    >
+      {skills.map((skill, i) => (
+        <span
+          key={i}
+          className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/[0.08] border border-white/10 text-white text-sm font-medium hover:border-white/20 transition-colors group"
+        >
+          {skill}
+          <button
+            type="button"
+            onClick={(e) => { e.stopPropagation(); removeSkill(i); }}
+            className="text-textMuted hover:text-red-400 transition-colors leading-none"
+          >
+            ×
+          </button>
+        </span>
+      ))}
+      <input
+        ref={inputRef}
+        type="text"
+        value={input}
+        onChange={e => setInput(e.target.value)}
+        onKeyDown={handleKeyDown}
+        onBlur={() => { if (input.trim()) addSkill(input); }}
+        placeholder={skills.length === 0 ? 'Type a skill and press Enter...' : 'Add more...'}
+        className="flex-1 min-w-[140px] bg-transparent text-white text-sm outline-none placeholder:text-textMuted/50 py-1"
+      />
+    </div>
+  );
+}
+
 export default function Profile() {
   const { user, loadUser, updateProfile } = useAuthStore();
   const [file, setFile] = useState(null);
@@ -372,19 +429,10 @@ export default function Profile() {
                 <h2 className="text-xs font-mono uppercase tracking-widest text-textMuted mb-6 border-b border-white/10 pb-4 flex items-center gap-2">
                   <Award className="w-4 h-4 text-primary" /> Skills Index
                 </h2>
-                <div className="space-y-2">
-                  {form.skills.map((skill, i) => (
-                    <div key={i} className="flex gap-2">
-                      <input className="input-field flex-1" value={skill} onChange={e => updateArray('skills', i, e.target.value)} placeholder="e.g. React.js, Node.js, Python..." />
-                      {form.skills.length > 1 && (
-                        <button type="button" onClick={() => removeFromArray('skills', i)} className="text-red-400/60 hover:text-red-400 transition p-2"><Trash2 className="w-4 h-4" /></button>
-                      )}
-                    </div>
-                  ))}
-                  <button type="button" onClick={() => addToArray('skills')} className="text-xs font-mono text-primary hover:text-white flex items-center gap-1.5 mt-3 transition-colors">
-                    <Plus className="w-3 h-3" /> Add Skill
-                  </button>
-                </div>
+                <SkillTagInput
+                  skills={form.skills.filter(s => s.trim())}
+                  onChange={(newSkills) => setForm(f => ({ ...f, skills: newSkills.length ? newSkills : [''] }))}
+                />
               </div>
 
               {/* Experience */}
@@ -452,19 +500,12 @@ export default function Profile() {
                         <input className="input-field" placeholder="Live Demo URL" value={proj.demo || ''} onChange={e => updateObjectInArray('projects', i, 'demo', e.target.value)} />
                       </div>
                       {/* Technologies */}
-                      <div className="space-y-2">
-                        <label className="block text-xs font-medium text-white/50">Technologies</label>
-                        {(proj.technologies || []).map((tech, ti) => (
-                          <div key={ti} className="flex gap-2">
-                            <input className="input-field flex-1" placeholder="e.g. React, Node.js" value={tech} onChange={e => updateSubArray('projects', i, 'technologies', ti, e.target.value)} />
-                            {proj.technologies.length > 1 && (
-                              <button type="button" onClick={() => removeSubArray('projects', i, 'technologies', ti)} className="text-red-400/60 hover:text-red-400 transition p-2"><Trash2 className="w-3 h-3" /></button>
-                            )}
-                          </div>
-                        ))}
-                        <button type="button" onClick={() => addSubArray('projects', i, 'technologies')} className="text-xs text-indigo-400 hover:text-indigo-300 flex items-center gap-1">
-                          <Plus className="w-3 h-3" /> Add tech
-                        </button>
+                      <div>
+                        <label className="block text-xs font-medium text-white/50 mb-2">Technologies</label>
+                        <SkillTagInput
+                          skills={(proj.technologies || []).filter(t => t.trim())}
+                          onChange={(newTechs) => updateObjectInArray('projects', i, 'technologies', newTechs.length ? newTechs : [''])}
+                        />
                       </div>
                       {/* Description */}
                       <div className="space-y-2">
