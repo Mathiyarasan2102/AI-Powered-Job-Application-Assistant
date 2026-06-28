@@ -85,13 +85,13 @@ Tone: intelligent, supportive, professional, strategic, concise, practical.
 `.trim();
 
 // ─── OpenRouter (Cloud) ────────────────────────────────────
-async function generateWithOpenRouter(prompt, systemMessage = '') {
+async function generateWithOpenRouter(prompt, systemMessage = '', maxTokens = 8192) {
     const models = [
         'openai/gpt-oss-120b:free',
         'openrouter/free',
-        'google/gemma-2-9b-it:free',
-        'qwen/qwen-2.5-72b-instruct:free',
-        'meta-llama/llama-3-8b-instruct:free'
+        'meta-llama/llama-4-maverick:free',
+        'google/gemini-2.0-flash-exp:free',
+        'deepseek/deepseek-r1:free'
     ];
 
     for (const model of models) {
@@ -102,7 +102,7 @@ async function generateWithOpenRouter(prompt, systemMessage = '') {
                 { role: 'user', content: prompt }
             ],
             response_format: { type: 'json_object' },
-            max_tokens: 8192,
+            max_tokens: maxTokens,
             temperature: 0.4
         };
 
@@ -135,8 +135,8 @@ async function generateWithOpenRouter(prompt, systemMessage = '') {
 }
 
 // ─── Ollama Cloud ──────────────────────────────────────────
-async function generateWithOllama(prompt, systemMessage = '') {
-    const baseUrl = process.env.OLLAMA_BASE_URL || 'https://ollama.com/api';
+async function generateWithOllama(prompt, systemMessage = '', maxTokens = 8192) {
+    const baseUrl = (process.env.OLLAMA_BASE_URL || 'https://ollama.com/api').replace(/\/api\/?$/, '');
     const apiKey = process.env.OLLAMA_API_KEY || '';
     const models = [
         process.env.DEFAULT_OLLAMA_MODEL || 'qwen3-coder:480b-cloud',
@@ -238,7 +238,7 @@ module.exports = {
      * Generate a structured JSON response from an AI model.
      * Automatically switches between OpenRouter and Ollama based on AI_PROVIDER env.
      */
-    async generateJSON(prompt, systemMessage = '') {
+    async generateJSON(prompt, systemMessage = '', maxTokens = 8192) {
         const provider = (process.env.AI_PROVIDER || 'openrouter').toLowerCase();
         // Prepend master orchestration context, then append the per-call specialist instruction
         const combinedSys = systemMessage
@@ -251,13 +251,13 @@ module.exports = {
             let rawResponse;
             try {
                 if (provider === 'ollama') {
-                    rawResponse = await generateWithOllama(prompt, sysMsg);
+                    rawResponse = await generateWithOllama(prompt, sysMsg, maxTokens);
                 } else {
                     try {
-                        rawResponse = await generateWithOpenRouter(prompt, sysMsg);
+                        rawResponse = await generateWithOpenRouter(prompt, sysMsg, maxTokens);
                     } catch (openRouterErr) {
                         console.log('OpenRouter models failed. Automatically switching to Ollama Cloud models...');
-                        rawResponse = await generateWithOllama(prompt, sysMsg);
+                        rawResponse = await generateWithOllama(prompt, sysMsg, maxTokens);
                     }
                 }
 

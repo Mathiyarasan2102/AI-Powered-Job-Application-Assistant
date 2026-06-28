@@ -1,6 +1,6 @@
 import { useJobStore } from '../store/useJobStore';
 import { useAuthStore } from '../store/useAuthStore';
-import { Navigate, Link, useLocation } from 'react-router-dom';
+import { Navigate, Link, useLocation, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Download, Mail, Copy, CheckCircle, AlertTriangle, ArrowLeft, Share2, Edit3, Eye, Target, Sparkles, X, RefreshCw, FileText, Plus, Check } from 'lucide-react';
 import { useState, useCallback } from 'react';
@@ -11,6 +11,7 @@ export default function ApplicationPreview() {
   const { jobData, generatedResume, generatedEmail, generatedCoverLetter, pdfUrl, score, matchedKeywords, missingKeywords } = useJobStore();
   const { user, updateProfile } = useAuthStore();
   const location = useLocation();
+  const navigate = useNavigate();
   const fromHistory = location.state?.from === '/history';
   
   const [copied, setCopied] = useState(false);

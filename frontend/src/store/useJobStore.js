@@ -91,7 +91,12 @@ export const useJobStore = create(
 
       loadFromHistory: (resume) => {
         set({
-          jobData: null, 
+          jobData: {
+            job_title: resume.jobTitle || '',
+            company_name: resume.companyName || '',
+            skills_required: resume.matchedKeywords || [],
+            keywords: [...(resume.matchedKeywords || []), ...(resume.missingKeywords || [])]
+          },
           generatedResume: resume.contentJson,
           generatedEmail: resume.emailSubject ? { subject: resume.emailSubject, body: resume.emailDraft } : null,
           generatedCoverLetter: resume.coverLetterDraft || null,
