@@ -8,8 +8,9 @@ const puppeteer = require('puppeteer');
 // Replaces the old LaTeX-based pipeline entirely.
 // ──────────────────────────────────────────────────────────
 
+const isVercel = process.env.VERCEL === '1';
 const TEMPLATE_DIR = path.join(__dirname, '../templates');
-const BUILD_DIR = path.join(__dirname, '../uploads/pdfbuilds');
+const BUILD_DIR = isVercel ? '/tmp/uploads/pdfbuilds' : path.join(__dirname, '../uploads/pdfbuilds');
 
 /**
  * Sanitize user input to prevent script injection.
@@ -166,8 +167,12 @@ module.exports = {
         const html = await renderTemplate(data);
 
         // 4. Ensure output directory exists
-        if (!fs.existsSync(BUILD_DIR)) {
-            fs.mkdirSync(BUILD_DIR, { recursive: true });
+        try {
+            if (!fs.existsSync(BUILD_DIR)) {
+                fs.mkdirSync(BUILD_DIR, { recursive: true });
+            }
+        } catch (err) {
+            console.warn('Warning: Could not create PDF build directory:', err.message);
         }
 
         // 5. Build filename
