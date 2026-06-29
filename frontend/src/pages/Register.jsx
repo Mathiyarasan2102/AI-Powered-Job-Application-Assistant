@@ -87,6 +87,7 @@ export default function Register() {
                   {...registerForm('password', { required: true })}
                   className="input-field pl-11"
                   placeholder="••••••••"
+                  autoComplete="new-password"
                 />
               </div>
               {errors.password && <p className="text-xs text-red-400 mt-1">Password is required</p>}

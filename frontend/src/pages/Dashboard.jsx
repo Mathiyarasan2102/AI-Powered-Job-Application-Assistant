@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { useEffect } from 'react';
 import { FilePlus, FileText, UserCircle, Clock, Target, TrendingUp, Sparkles, ChevronRight, Download } from 'lucide-react';
+import { API_BASE_URL } from '../api/axios';
 
 export default function Dashboard() {
   const { user } = useAuthStore();
@@ -189,7 +190,7 @@ export default function Dashboard() {
                     
                     {resume.pdfFile && (
                       <a
-                        href={`http://localhost:5000/uploads/pdfbuilds/${resume.pdfFile}`}
+                        href={`${API_BASE_URL}/uploads/pdfbuilds/${resume.pdfFile}`}
                         download
                         target="_blank"
                         rel="noreferrer"
