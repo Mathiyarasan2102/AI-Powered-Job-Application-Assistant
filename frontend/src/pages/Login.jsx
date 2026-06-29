@@ -59,6 +59,7 @@ export default function Login() {
                   {...register('email', { required: true })}
                   className="input-field pl-11"
                   placeholder="name@example.com"
+                  autoComplete="username"
                 />
               </div>
               {errors.email && <p className="text-xs text-red-400 mt-1">Email is required</p>}
